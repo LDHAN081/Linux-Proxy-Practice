@@ -1,7 +1,8 @@
 # Linux-Proxy-Practice
-# 任务 1：VMware 虚拟机安装与 Ubuntu Web 服务器搭建详细手顺
 
-## 1. 软件与镜像下载
+## 任务 1：VMware 虚拟机安装与 Ubuntu Web 服务器搭建详细手顺
+
+### 1. 软件与镜像下载
 * **VMware Workstation**: 
   * 现已并入 Broadcom，个人使用免费。去 Broadcom 支持中心注册账号并下载 Workstation Pro。
   * 官方地址：`https://support.broadcom.com/` (搜索 VMware Workstation Pro)
@@ -9,13 +10,13 @@
   * 推荐下载 LTS（长期支持版，如 22.04 或 24.04）的 Desktop 桌面版镜像。
   * 官方下载：`https://ubuntu.com/download/desktop`
 
-## 2. 在 VMware 中创建虚拟机
+### 2. 在 VMware 中创建虚拟机
 1. 打开 VMware，点击 **Create a New Virtual Machine** (新建虚拟机)。
 2. 选择 **Typical** (典型)，点击 Next。
 3. 选择 **Installer disc image file (iso)**，点击 Browse 选择你刚下载的 Ubuntu ISO 文件。
 4. 填写简易安装信息：
    * Full name: 随便填
-   * User name: `user` (你的登录账户名)
+   * User name: `ldhan` (你的登录账户名)
    * Password: `123456` (你的密码)
 5. 命名与存放：
    * 名字填 `Ubuntu1`。
@@ -24,7 +25,7 @@
 7. **网络关键设置**：点击 **Customize Hardware** (自定义硬件)，找到 **Network Adapter** (网络适配器)，**必须选中 NAT mode**（这样才能和 Windows 宿主机互通）。
 8. 点击 Finish，等待系统自动安装完成并进入桌面。
 
-## 3. 安装核心服务
+### 3. 安装核心服务
 等 Ubuntu 安装好看到紫色桌面后，右键打开终端 (Terminal)，逐行执行以下命令：
 
 ```bash
@@ -36,13 +37,29 @@ sudo apt install apache2 -y
 
 # 3. 安装 SSH 远程连接服务
 sudo apt install openssh-server -y
-## 6. 验证与成果确认
+```
 
+### 4. 验证与成果确认
 这是最后一步，用来证明你的服务器已经成功跑起来了。
 
-### 1. 获取 Ubuntu 本机 IP
+#### 1. 获取 Ubuntu 本机 IP
 在 Ubuntu 虚拟机的终端里输入查询命令：
 ```bash
 ip a
+```
+> **提示**：在输出结果中找到 `ens33` 这一段，记下 `inet` 后面的 IP 地址（例如：`192.168.147.128`），后面都要用到它。
 
+#### 2. 测试 SSH 远程连接
+1. 回到你的 Windows 电脑，按 `Win + R` 键，输入 `cmd` 并回车，打开命令行窗口。
+2. 输入以下连接命令（请把 IP 换成你刚才实际查到的）：
+```bash
 ssh ldhan@192.168.147.128
+```
+> **提示**：第一次连接会询问是否信任主机，输入 `yes` 回车。接着输入密码（Linux 输入密码时屏幕不显示字符，盲输完直接回车即可）。只要命令提示符变成类似 `ldhan@ubuntu:~$`，就说明你成功从 Windows 连上虚拟机了。
+
+#### 3. 测试 Web 网页 (成果物截图)
+1. 打开 Windows 上的浏览器（Chrome 或 Edge）。
+2. 在顶部地址栏直接输入你的虚拟机 IP：`http://192.168.147.128`
+3. 回车访问。如果你看到一个写着 **"Apache2 Ubuntu Default Page"** 的官方欢迎网页，立刻截图保存。
+
+🎉 **恭喜！你的任务 1 成果物已拿到，顺利完工！**
