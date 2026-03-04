@@ -193,7 +193,7 @@ hostname -I | awk '{print $1}' > "/home/ldhan/ip_check_${NOW}.log"
 ### 2. 赋予执行权限
 脚本写好了默认不能直接跑，得给它加个“可执行”权限：
 ```bash
-chmod +x /home/ldhan/ip_reader.sh
+chmod +x /home/user/ip_reader.sh
 ```
 
 ### 3. 配置 Cron 定时任务
@@ -205,7 +205,7 @@ crontab -e
 
 在文件最末尾另起一行，加入以下内容：
 ```text
-* * * * * /home/ldhan/ip_reader.sh
+* * * * * /home/user/ip_reader.sh
 ```
 > **保存退出**：按 `Ctrl+O` -> 回车确认 -> `Ctrl+X` 退出。
 *(注：`* * * * *` 代表每分钟执行一次。如果想按严格的 30 分钟，改成 `*/30 * * * *` 即可)*
@@ -216,14 +216,14 @@ crontab -e
 #### 验证 A：检查日志文件是否自动生成 (截图 1)
 在终端输入：
 ```bash
-ls -l /home/ldhan/ip_check_*.log
+ls -l /home/user/ip_check_*.log
 ```
 **预期结果**：能看到按当前时间命名的 `.log` 文件列表。**（截图保存）**
 
 #### 验证 B：查看日志内容 (截图 2)
 用 `cat` 命令查看其中一个文件的内容（请把下面的文件名替换成你实际查到的文件名）：
 ```bash
-cat /home/ldhan/ip_check_20260304_153000.log
+cat /home/user/ip_check_20260304_153000.log
 ```
 **预期结果**：终端会输出 `Linux2` 的 IP 地址。连同执行的命令和打印出来的 IP 一起**截图保存**。
 
