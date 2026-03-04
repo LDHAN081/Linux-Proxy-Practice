@@ -1,31 +1,48 @@
 # Linux-Proxy-Practice
-# 任务 1：搭建 Ubuntu 虚拟机与 Apache Web 服务器
+# 任务 1：VMware 虚拟机安装与 Ubuntu Web 服务器搭建详细手顺
 
-## 1. 虚拟机 (VM) 准备
-* **软件**：VMware Workstation
-* **镜像**：Ubuntu ISO 文件
-* **配置要点**：
-  * **网络适配器**：必须选 **NAT 模式**（确保与 Windows 宿主机互通）。
-  * **账号设置**：创建用户（例如 `ldhan`），设置密码。
+## 1. 软件与镜像下载
+* **VMware Workstation**: 
+  * 现已并入 Broadcom，个人使用免费。去 Broadcom 支持中心注册账号并下载 Workstation Pro。
+  * 官方地址：`https://support.broadcom.com/` (搜索 VMware Workstation Pro)
+* **Ubuntu 系统镜像 (ISO)**: 
+  * 推荐下载 LTS（长期支持版，如 22.04 或 24.04）的 Desktop 桌面版镜像。
+  * 官方下载：`https://ubuntu.com/download/desktop`
 
-## 2. 安装核心服务 (SSH & Apache)
-等待 Ubuntu 自动安装完成并进入桌面后，右键打开终端（Terminal），执行以下命令：
+## 2. 在 VMware 中创建虚拟机
+1. 打开 VMware，点击 **Create a New Virtual Machine** (新建虚拟机)。
+2. 选择 **Typical** (典型)，点击 Next。
+3. 选择 **Installer disc image file (iso)**，点击 Browse 选择你刚下载的 Ubuntu ISO 文件。
+4. 填写简易安装信息：
+   * Full name: 随便填
+   * User name: `user` (你的登录账户名)
+   * Password: `123456` (你的密码)
+5. 命名与存放：
+   * 名字填 `Ubuntu1`。
+   * 位置选一个空间充足的盘（千万别直接丢根目录，建议建个文件夹如 `E:\VM\Ubuntu1`）。
+6. 磁盘设置：大小保持默认 20GB，选中 **Split virtual disk into multiple files**。
+7. **网络关键设置**：点击 **Customize Hardware** (自定义硬件)，找到 **Network Adapter** (网络适配器)，**必须选中 NAT mode**（这样才能和 Windows 宿主机互通）。
+8. 点击 Finish，等待系统自动安装完成并进入桌面。
+
+## 3. 安装核心服务
+等 Ubuntu 安装好看到紫色桌面后，右键打开终端 (Terminal)，逐行执行以下命令：
 
 ```bash
-# 更新软件源，并一键安装 Apache (网页服务) 和 OpenSSH (远程连接)
-sudo apt update && sudo apt install apache2 openssh-server -y
+# 1. 更新系统的软件源列表
+sudo apt update
 
-# 设置开机自启并立即启动这两个服务
-sudo systemctl enable --now apache2 ssh
+# 2. 安装 Apache 网页服务 (-y 表示免确认直接安装)
+sudo apt install apache2 -y
 
-# 允许 SSH (22端口) 连接
-sudo ufw allow ssh
+# 3. 安装 SSH 远程连接服务
+sudo apt install openssh-server -y
+## 6. 验证与成果确认
 
-# 允许 HTTP (80端口) 网页连接
-sudo ufw allow 80/tcp
+这是最后一步，用来证明你的服务器已经成功跑起来了。
 
-# 激活防火墙 (提示中断连接时按 y 确认)
-sudo ufw enable
+### 1. 获取 Ubuntu 本机 IP
+在 Ubuntu 虚拟机的终端里输入查询命令：
+```bash
+ip a
 
-# 查看防火墙状态，确认规则已生效
-sudo ufw status
+ssh ldhan@192.168.147.128
